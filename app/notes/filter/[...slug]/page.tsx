@@ -5,9 +5,37 @@ import {
 } from "@tanstack/react-query";
 import { fetchNotes, queryKey } from "@/lib/api";
 import NotesClient from "./Notes.client";
+import type { Metadata } from "next";
+
 type NotesProps = {
   params: Promise<{ slug: string[] }>;
 };
+export async function generateMetadata({
+  params,
+}: NotesProps): Promise<Metadata> {
+  const { slug } = await params;
+  const category = slug[0] === "all" ? "All" : slug[0];
+
+  const title = `Notes - ${category}`;
+  const description = `Viewing notes in "${category}".`;
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: "https://notehub.com/",
+      images: [
+        {
+          url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
+          width: 1200,
+          height: 630,
+          alt: "Filtered notes",
+        },
+      ],
+    },
+  };
+}
 export default async function Notes({ params }: NotesProps) {
   const { slug } = await params;
   const tag = slug[0] === "all" ? undefined : slug[0];
