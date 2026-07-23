@@ -15,8 +15,7 @@ export async function generateMetadata({
 }: NotesProps): Promise<Metadata> {
   const { slug } = await params;
   const category = slug[0] === "all" ? "All" : slug[0];
-
-  const title = `Notes - ${category}`;
+  const title = `Notes - ${category} | NoteHub`;
   const description = `Viewing notes in "${category}".`;
   return {
     title,
@@ -24,7 +23,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      url: "https://notehub.com/",
+      url: `https://08-zustand-iota-gold.vercel.app/notes/filter/${slug.join("/")}`,
       images: [
         {
           url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
